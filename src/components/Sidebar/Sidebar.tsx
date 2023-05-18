@@ -1,36 +1,57 @@
-import React from 'react'
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
+  const [activeItem, setActiveItem] = useState("Home");
+
+  const handleItemClick = (item: string) => {
+    setActiveItem(item);
+  };
   return (
     <>
       <div className="d-flex flex-column flex-shrink-0 p-3 bg-light">
-        <a
-          href="/"
-          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
-        >
-          <svg calcMode="bi me-2" width="40" height="32">
-          </svg>
-          <span className="fs-4">Sidebar</span>
+        <a className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <span>Admin User</span>
         </a>
         <hr></hr>
         <ul className="nav nav-pills flex-column mb-auto">
-          <li className="nav-item">
-            <a href="#" className="nav-link active" aria-current="page">
-              <svg className="bi me-2" width="16" height="16">
-                {/* <use className:href="#home"></use> */}
-              </svg>
+          <li className="nav-item" onClick={() => handleItemClick("Home")}>
+            <Link
+              to="/landing"
+              className={
+                activeItem === "Home" ? "nav-link active" : "nav-link link-dark"
+              }
+            >
+              <i className="bi bi-house p-2"></i>
               Home
-            </a>
+            </Link>
           </li>
-          <li>
-            <a href="#" className="nav-link link-dark">
-              <svg className="bi me-2" width="16" height="16">
-                <use className="#speedometer2"></use>
-              </svg>
-              Dashboard
-            </a>
+          <li onClick={() => handleItemClick("Clients")}>
+            <Link
+              to="/client/list"
+              className={
+                activeItem === "Clients"
+                  ? "nav-link active"
+                  : "nav-link link-dark"
+              }
+            >
+              <i className="bi bi-file-person p-2"></i> Clients
+            </Link>
+          </li>
+          <li onClick={() => handleItemClick("Classes")}>
+            <Link
+              to="/classes/list"
+              className={
+                activeItem === "Classes"
+                  ? "nav-link active"
+                  : "nav-link link-dark"
+              }
+            >
+              <i className="bi bi-flower3 p-2"></i> Classes
+            </Link>
           </li>
         </ul>
+        <hr></hr>
       </div>
     </>
   );

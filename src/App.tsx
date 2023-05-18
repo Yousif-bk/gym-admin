@@ -9,7 +9,7 @@ function App() {
       <Header />
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-2">
+          <div className="col-md-2 p-0">
             <Sidebar />
           </div>
           <div className="col-md-9">
