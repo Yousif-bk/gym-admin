@@ -1,8 +1,8 @@
 export const AppRoutes = {
     Clients: {
-        create: "client/create",
-        list: "client/list",
-        edit: "client/sign-up",
+        create: "/client/create",
+        list: "/client/list",
+        edit: "/clients/:id",
         details: "client/details"
     },
     Landing: {

@@ -11,6 +11,7 @@ const Routes: React.FC = () => {
       <Route path={AppRoutes.Landing.home} element={<Landing />} />
       <Route path={AppRoutes.Clients.list} element={<ClientList />} />
       <Route path={AppRoutes.Clients.create} element={<ClientCreate />} />
+      <Route path={AppRoutes.Clients.edit} element={<ClientCreate />} />
       <Route path="/" element={<Navigate to={AppRoutes.Landing.home} />} />
       <Route path="*" element={<NotFound />} />
     </ReactRoutes>

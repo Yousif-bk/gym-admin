@@ -1,3 +1,4 @@
+
 export const InitialValues = {
-    name: '', phone: '', number: '', address: '', subscriptionType: ''
+    full_name: '', mobile_number: '', address: '', subscription_plan: ''
 }
