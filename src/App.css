@@ -176,8 +176,7 @@
 .main-table tbody td:not(:last-child) .table_cell {
     border-right: 1px solid #757575;
 }
-.main-cell:hover{
-    background-color: #f8f9fa;
+.clickable:hover{
     cursor: pointer;
 }
 .main-table tbody td:first-child {
@@ -188,6 +187,13 @@
 .main-table tbody td:last-child {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 6px;
+}
+
+.table_cell-content {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
     @keyframes alerttt {

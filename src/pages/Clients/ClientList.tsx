@@ -46,7 +46,6 @@ function ClientList() {
         <ClientTable
           clients={clients}
           isloading={isloading}
-          fields={ClientFields}
         />
       </div>
     </>
