@@ -195,7 +195,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url("./assets//profile.jpg");
+    background-size: cover;
+}
     @keyframes alerttt {
     from {
         display: block;

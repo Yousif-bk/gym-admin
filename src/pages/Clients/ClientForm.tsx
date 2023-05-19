@@ -7,7 +7,7 @@ import { AppRoutes } from "../../models/AppRoutes";
 import { ApiRoutes } from "../../models/ApiRoutes";
 import { useEffect, useState } from "react";
 
-function ClientCreate() {
+function ClientForm() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [clientValue, setClientValue] = useState(null);
@@ -21,22 +21,19 @@ function ClientCreate() {
           setClientValue(response.data);
         } catch (error) {}
       };
-
       fetchClient();
     }
   }, [id]);
 
   const handleOnSubmit = async (clientData: any, { setSubmitting }: any) => {
     if (isEditMode) {
-       try {
-       const respon = await api.put(`/clients/${id}`, clientData);
-       console.log(respon.data, "fhghfdg");
-       
-         setSubmitting(false);
-         navigate(AppRoutes.Clients.list);
-       } catch (error) {
-         setSubmitting(false);
-       }
+      try {
+       await api.put(`/clients/${id}`, clientData);
+        setSubmitting(false);
+        navigate(AppRoutes.Clients.list);
+      } catch (error) {
+        setSubmitting(false);
+      }
     } else {
       try {
         await api.post(ApiRoutes.Clients.create, clientData);
@@ -46,7 +43,6 @@ function ClientCreate() {
         setSubmitting(false);
       }
     }
-    
   };
 
   return (
@@ -165,4 +161,4 @@ function ClientCreate() {
   );
 }
 
-export default ClientCreate;
+export default ClientForm;

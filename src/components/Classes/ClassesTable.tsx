@@ -1,22 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Class from "../../models/Class";
 import api from "../../helper/axios/Api";
 
-interface ClientTableProps {
-  data: Class[];
-  isloading: boolean;
-}
 
-const ClassesTable: React.FC<ClientTableProps> = ({ data, isloading }) => {
+
+const ClassesTable= () => {
   const navigate = useNavigate();
-  const handleDelete = async (classId: string) => {
-    try {
-      await api.delete(`/classes/${classId}`);
-    } catch (error) {
-      console.error("Error deleting class:", error);
-    }
-  };
+ const [isloading, setIsLoading] = useState<boolean>(false);
+ const [classes, setClasses] = useState<Class[]>([]);
+
+    useEffect(() => {
+      fetchClients();
+    }, []);
+
+    const fetchClients = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get("/classes");
+        setClasses(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+        setIsLoading(false);
+      }
+    };
+
+    const handleDelete = async (classId: string) => {
+      try {
+        await api.delete(`/classes/${classId}`);
+        const updatedClass = classes.filter((data) => data.id !== classId);
+        setClasses(updatedClass);
+      } catch (error) {
+        console.error("Error deleting class:", error);
+      }
+    };
+
   const handleUpdate = (classId: string) => navigate(`/classes/${classId}`);
   const handleDetails = (classId: string) =>
     navigate(`/class/details/${classId}`);
@@ -43,7 +62,7 @@ const ClassesTable: React.FC<ClientTableProps> = ({ data, isloading }) => {
             </td>
           </tr>
         )}
-        {data.map((item) => (
+        {classes.map((item) => (
           <tr key={item.id}>
             <td>
               <div className="table_cell">{item.id}</div>
@@ -68,8 +87,10 @@ const ClassesTable: React.FC<ClientTableProps> = ({ data, isloading }) => {
                   />
                 ) : (
                   <img
-                    src="https://example.com/placeholder-image.jpg"
+                    src="https://hips.hearstapps.com/hmg-prod/images/mh-trainer-2-1533576998.png"
                     alt="Placeholder"
+                    width={60}
+                    height={60}
                     className="table_image"
                   />
                 )}

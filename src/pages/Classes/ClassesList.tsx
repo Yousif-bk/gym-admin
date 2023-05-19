@@ -1,31 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../models/AppRoutes";
 import ClassesTable from "../../components/Classes/ClassesTable";
-import { useEffect, useState } from "react";
-import Class from "../../models/Class";
-import { ApiRoutes } from "../../models/ApiRoutes";
-import api from "../../helper/axios/Api";
 
 function ClassesList() {
+  const navigate = useNavigate();
   const handleAddClass = () => navigate(AppRoutes.Classes.create);
-    const [classes, setClasses] = useState<Class[]>([]);
-    const [isloading, setIsLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
-
-   useEffect(() => {
-     const fetchData = async () => {
-       setIsLoading(true);
-       try {
-         const response = await api.get(ApiRoutes.Classes.fetch);
-         setClasses(response.data);
-         setIsLoading(false);
-       } catch (error) {
-         setIsLoading(false);
-       }
-     };
-
-     fetchData();
-   }, []);
 
   return (
     <>
@@ -41,7 +20,7 @@ function ClassesList() {
             </button>
           </div>
         </div>
-        <ClassesTable data={classes} isloading={isloading} />
+        <ClassesTable />
       </div>
     </>
   );

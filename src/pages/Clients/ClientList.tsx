@@ -1,31 +1,12 @@
-import { useEffect, useState } from "react";
-import api from "../../helper/axios/Api";
-import Client from "../../models/Client";
+import { useState } from "react";
 import ClientTable from "../../components/Clients/ClientsTable";
-import { ClientFields } from "../../models/ClientFields";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../models/AppRoutes";
-import { ApiRoutes } from "../../models/ApiRoutes";
 
 function ClientList() {
-  const [clients, setClients] = useState<Client[]>([]);
-  const [isloading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await api.get(ApiRoutes.Clients.fetch);
-        setClients(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
 
   const handleAddClickt = () => navigate(AppRoutes.Clients.create);
 
@@ -43,10 +24,7 @@ function ClientList() {
             </button>
           </div>
         </div>
-        <ClientTable
-          clients={clients}
-          isloading={isloading}
-        />
+        <ClientTable/>
       </div>
     </>
   );

@@ -33,8 +33,7 @@ function ClassesForm() {
   const handleOnSubmit = async (classData: any, { setSubmitting }: any) => {
     if (isEditMode) {
       try {
-        const respon = await api.put(`/classes/${id}`, classData);
-        console.log(respon.data, "fhghfdg");
+       await api.put(`/classes/${id}`, classData);
 
         setSubmitting(false);
         navigate(AppRoutes.Classes.list);

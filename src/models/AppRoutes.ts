@@ -12,6 +12,6 @@ export const AppRoutes = {
          create: "/classes/create",
           list: "/classes/list",
           edit: "/classes/:id",
-          details: "classes/details"
+          details: "/class/details/:id"
     },
 }

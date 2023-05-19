@@ -1,25 +1,44 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Client from "../../models/Client";
 import api from "../../helper/axios/Api";
 import { useNavigate } from "react-router-dom";
 
-interface ClientTableProps {
-  clients: Client[];
-  isloading: boolean;
-}
 
-const ClientTable: React.FC<ClientTableProps> = ({ clients, isloading }) => {
+
+const ClientTable = () => {
   const navigate = useNavigate();
-  const handleDelete = async (clientsId: string) => {
+  const [clients, setClients] = useState<Client[]>([]);
+  const [isloading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const fetchClients = async () => {
+    setIsLoading(true)
     try {
-      await api.delete(`/clients/${clientsId}`);
+      const response = await api.get("/clients");
+      setClients(response.data);
+      setIsLoading(false);
     } catch (error) {
-      console.error("Error deleting class:", error);
+      console.error("Error fetching clients:", error);
+      setIsLoading(false);
     }
   };
-  const handleUpdate = (clientsId: string) => navigate(`/clients/${clientsId}`);
-  const handleDetails = (clientsId: string) =>
-    navigate(`/client/details/${clientsId}`);
+
+  const handleDelete = async (clientId: string) => {
+    try {
+      await api.delete(`/clients/${clientId}`);
+      const updatedClients = clients.filter((client) => client.id !== clientId);
+      setClients(updatedClients);
+    } catch (error) {
+      console.error("Error deleting client:", error);
+    }
+  };
+
+  const handleUpdate = (clientId: string) => navigate(`/clients/${clientId}`);
+  const handleDetails = (clientId: string) =>
+    navigate(`/client/details/${clientId}`);
 
   return (
     <table className="table w-100 mb-4 main-table">
@@ -43,48 +62,56 @@ const ClientTable: React.FC<ClientTableProps> = ({ clients, isloading }) => {
             </td>
           </tr>
         )}
-        {clients.map((client) => (
-          <tr key={client.id}>
-            <td>
-              <div className="table_cell">{client.id}</div>
-            </td>
-            <td>
-              <div className="table_cell">
-                {typeof client.avatar === "object" ? "" : client.avatar}
-              </div>
-            </td>
-            <td>
-              <div
-                className="table_cell clickable text-primary"
-                onClick={() => handleDetails(client.id)}
-              >
-                {client.full_name}
-              </div>
-            </td>
-            <td>
-              <div className="table_cell">{client.address}</div>
-            </td>
-            <td>
-              <div className="table_cell">{client.subscription_plan}</div>
-            </td>
-            <td>
-              <div className="table_cell">{client.mobile_number}</div>
-            </td>
-            <td>
-              <div className="table_cell">{client.createdAt}</div>
-            </td>
-            <td>
-              <i
-                className="bi bi-trash p-3 clickable"
-                onClick={() => handleDelete(client.id)}
-              />
-              <i
-                className="bi bi-pen clickable"
-                onClick={() => handleUpdate(client.id)}
-              />
+        {clients.length > 0 ? (
+          clients.map((client) => (
+            <tr key={client.id}>
+              <td>
+                <div className="table_cell">{client.id}</div>
+              </td>
+              <td>
+                <div className="table_cell">
+                  {typeof client.avatar === "object" ? "" : client.avatar}
+                </div>
+              </td>
+              <td>
+                <div
+                  className="table_cell clickable text-primary"
+                  onClick={() => handleDetails(client.id)}
+                >
+                  {client.full_name}
+                </div>
+              </td>
+              <td>
+                <div className="table_cell">{client.address}</div>
+              </td>
+              <td>
+                <div className="table_cell">{client.subscription_plan}</div>
+              </td>
+              <td>
+                <div className="table_cell">{client.mobile_number}</div>
+              </td>
+              <td>
+                <div className="table_cell">{client.createdAt}</div>
+              </td>
+              <td>
+                <i
+                  className="bi bi-trash p-3 clickable"
+                  onClick={() => handleDelete(client.id)}
+                />
+                <i
+                  className="bi bi-pen clickable"
+                  onClick={() => handleUpdate(client.id)}
+                />
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={8} className="text-center">
+              No clients found.
             </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );

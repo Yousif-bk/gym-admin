@@ -51,7 +51,6 @@ function Sidebar() {
             </Link>
           </li>
         </ul>
-        <hr></hr>
       </div>
     </>
   );
