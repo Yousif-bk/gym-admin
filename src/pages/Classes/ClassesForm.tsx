@@ -53,12 +53,12 @@ function ClassesForm() {
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className="col-lg-8">
-        <div className="card shadow-sm animated flipInX delay-02">
-          <div className="card-header">
+        <div className="form-card shadow-sm animated flipInX delay-02">
+          <div className="form-card-header">
             <div className="card-header-title">
               {isEditMode ? "Edit Client" : "Create Client"}
             </div>
-            <div className="card-body">
+            <div className="form-card-body">
               <div className="row">
                 <Formik
                   onSubmit={handleOnSubmit}
@@ -73,7 +73,7 @@ function ClassesForm() {
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className="form-form-control"
                               id="name"
                               name="class_title"
                               placeholder="Class Title"
@@ -90,7 +90,7 @@ function ClassesForm() {
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className="form-form-control"
                               id="phone"
                               name="coach_name"
                               placeholder="Coach Name"
@@ -107,7 +107,7 @@ function ClassesForm() {
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className="form-form-control"
                               id="subscriptionType"
                               name="timing"
                               placeholder="Timing"
@@ -124,7 +124,7 @@ function ClassesForm() {
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className="form-form-control"
                               id="price"
                               name="price"
                               placeholder="Price"

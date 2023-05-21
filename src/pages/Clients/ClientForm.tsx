@@ -1,59 +1,54 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { InitialValues } from "../../helper/validation/InitialValues";
-import ValidationSchema from "../../helper/validation/ValidationSchema";
-import api from "../../helper/axios/Api";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../helper/axios/Api";
 import { AppRoutes } from "../../models/AppRoutes";
 import { ApiRoutes } from "../../models/ApiRoutes";
-import { useEffect, useState } from "react";
+import { InitialValues } from "../../helper/validation/InitialValues";
+import ValidationSchema from "../../helper/validation/ValidationSchema";
 
 function ClientForm() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [clientValue, setClientValue] = useState(null);
+  const [clientValue, setClientValue] = useState({});
   const isEditMode = !!id;
 
   useEffect(() => {
-    if (isEditMode) {
-      const fetchClient = async () => {
-        try {
+    const fetchClient = async () => {
+      try {
+        if (isEditMode) {
           const response = await api.get(`/clients/${id}`);
           setClientValue(response.data);
-        } catch (error) {}
-      };
-      fetchClient();
-    }
-  }, [id]);
+        }
+      } catch (error) {}
+    };
 
-  const handleOnSubmit = async (clientData: any, { setSubmitting }: any) => {
-    if (isEditMode) {
-      try {
-       await api.put(`/clients/${id}`, clientData);
-        setSubmitting(false);
-        navigate(AppRoutes.Clients.list);
-      } catch (error) {
-        setSubmitting(false);
-      }
-    } else {
-      try {
+    fetchClient();
+  }, [id, isEditMode]);
+
+  const handleOnSubmit = async (clientData:any, { setSubmitting }:any) => {
+    try {
+      if (isEditMode) {
+        await api.put(`/clients/${id}`, clientData);
+      } else {
         await api.post(ApiRoutes.Clients.create, clientData);
-        setSubmitting(false);
-        navigate(AppRoutes.Clients.list);
-      } catch (error) {
-        setSubmitting(false);
       }
+      setSubmitting(false);
+      navigate(AppRoutes.Clients.list);
+    } catch (error) {
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className="col-lg-8">
-        <div className="card shadow-sm animated flipInX delay-02">
-          <div className="card-header">
+        <div className="form-card shadow-sm animated flipInX delay-02">
+          <div className="form-card-header">
             <div className="card-header-title">
               {isEditMode ? "Edit Client" : "Create Client"}
             </div>
-            <div className="card-body">
+            <div className="form-card-body">
               <div className="row">
                 <Formik
                   onSubmit={handleOnSubmit}
@@ -64,14 +59,14 @@ function ClientForm() {
                     <Form>
                       <div className="row">
                         <div className="col-sm-12">
-                          <label htmlFor="email">Full Name</label>
+                          <label htmlFor="name">Full Name</label>
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
-                              id="name"
+                              className="form-form-control"
+                              id="full_name"
                               name="full_name"
-                              placeholder="Name"
+                              placeholder="Full Name"
                             />
                             <ErrorMessage
                               name="full_name"
@@ -81,11 +76,11 @@ function ClientForm() {
                           </div>
                         </div>
                         <div className="col-sm-6">
-                          <label htmlFor="email">Phone</label>
+                          <label htmlFor="phone">Phone</label>
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className=" form-form-control"
                               id="phone"
                               name="mobile_number"
                               placeholder="Phone"
@@ -98,14 +93,16 @@ function ClientForm() {
                           </div>
                         </div>
                         <div className="col-sm-6">
-                          <label htmlFor="email">Subscription Type </label>
+                          <label htmlFor="subscriptionType">
+                            Subscription Plan
+                          </label>
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className=" form-form-control"
                               id="subscriptionType"
                               name="subscription_plan"
-                              placeholder="Subscription Type"
+                              placeholder="Subscription Plan"
                             />
                             <ErrorMessage
                               name="subscription_plan"
@@ -115,11 +112,11 @@ function ClientForm() {
                           </div>
                         </div>
                         <div className="col-sm-12">
-                          <label htmlFor="email">Address</label>
+                          <label htmlFor="address">Address</label>
                           <div className="mb-4">
                             <Field
                               type="text"
-                              className="form-control"
+                              className=" form-form-control"
                               id="address"
                               name="address"
                               placeholder="Address"

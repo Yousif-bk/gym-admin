@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Class from "../../models/Class";
 import api from "../../helper/axios/Api";
@@ -41,12 +41,12 @@ const ClassesTable= () => {
     navigate(`/class/details/${classId}`);
 
   return (
-    <table className="table w-100 mb-4 main-table">
-      <thead>
+    <table className="table w-100 mb-4 main-table table-responsive">
+      <thead className="table-thead-bordered">
         <tr>
           <th>ID</th>
           <th>Coach Name</th>
-          <th>image</th>
+          <th>Image</th>
           <th>Timing</th>
           <th>Price</th>
           <th>Description</th>
@@ -54,16 +54,16 @@ const ClassesTable= () => {
           <th>Action</th>
         </tr>
       </thead>
-      <tbody>
-        {isloading && (
+      {classes.map((item) => (
+        <tbody key={item.id}>
+          {isloading && (
+            <tr>
+              <td colSpan={8} className="text-center">
+                <div className="spinner-grow" role="status"></div>
+              </td>
+            </tr>
+          )}
           <tr>
-            <td colSpan={8} className="text-center">
-              <div className="spinner-grow" role="status"></div>
-            </td>
-          </tr>
-        )}
-        {classes.map((item) => (
-          <tr key={item.id}>
             <td>
               <div className="table_cell">{item.id}</div>
             </td>
@@ -123,8 +123,8 @@ const ClassesTable= () => {
               />
             </td>
           </tr>
-        ))}
-      </tbody>
+        </tbody>
+      ))}
     </table>
   );
 };

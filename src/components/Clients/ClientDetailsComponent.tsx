@@ -10,14 +10,14 @@ const ClientDetailsComponent = ({ data, profileImage }: any) => {
       <div className="container px-4 py-5" id="custom-cards">
         <h2 className="pb-2 border-bottom">{`${data.full_name} Details`}</h2>
         <div className="row row-cols-1 row-cols-lg-3 g-4 py-5">
-          <div className="card p-0">
+          <div className="form-card p-0">
             <img
               className="card-img-top"
               src={profileImage}
               width={42}
               alt="Card image cap"
             />
-            <div className="card-body">
+            <div className="form-card-body">
               <p className="card-text">
                 <strong className="p-2">Full Name</strong>
                 <span>{data.full_name}</span>

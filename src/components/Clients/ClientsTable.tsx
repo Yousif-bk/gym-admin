@@ -62,7 +62,7 @@ const ClientTable = () => {
             </td>
           </tr>
         )}
-        {clients.length > 0 ? (
+        {clients.length > 0 && !isloading ? (
           clients.map((client) => (
             <tr key={client.id}>
               <td>
